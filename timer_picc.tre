@@ -1,0 +1,11 @@
+ÀÄtimer_picc
+   ÀÄMAIN  0/72  Ram=4
+      ÃÄ@cinit1  (Inline)  Ram=0
+      ÀÄstandbyDisplay  0/236  Ram=8
+         ÃÄnumber  0/390  Ram=1
+         ÃÄactive_display  0/94  Ram=1
+         ÃÄ@delay_ms1  0/40  Ram=1
+         ÃÄall_off  0/36  Ram=0
+         ÃÄnumber  0/390  Ram=1
+         ÃÄactive_display  0/94  Ram=1
+         ÀÄ@delay_ms1  0/40  Ram=1

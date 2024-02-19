@@ -1,0 +1,762 @@
+CCS PCH C Compiler, Version 5.025, 46878               19-feb.-24 09:37
+
+               Filename:   C:\Users\elyom\Documents\ElyoFiles\Electrónica\timer\timer_picc.lst
+
+               ROM used:   872 bytes (11%)
+                           Largest free fragment is 7320
+               RAM used:   9 (4%) at main() level
+                           18 (7%) worst case
+               Stack used: 1 locations
+               Stack size: 31
+
+*
+0000:  GOTO   0320
+.................... #include <timer_picc.h> 
+.................... #include <18F1320.h> 
+.................... //////////// Standard Header file for the PIC18F1320 device //////////////// 
+.................... /////////////////////////////////////////////////////////////////////////// 
+.................... ////        (C) Copyright 1996, 2013 Custom Computer Services          //// 
+.................... //// This source code may only be used by licensed users of the CCS C  //// 
+.................... //// compiler.  This source code may only be distributed to other      //// 
+.................... //// licensed users of the CCS C compiler.  No other use, reproduction //// 
+.................... //// or distribution is permitted without written permission.          //// 
+.................... //// Derivative programs created using this software in object code    //// 
+.................... //// form are not restricted in any way.                               //// 
+.................... /////////////////////////////////////////////////////////////////////////// 
+.................... #device PIC18F1320 
+....................  
+.................... #list 
+....................  
+.................... #device ADC=16 
+....................  
+.................... #FUSES NOWDT                    //No Watch Dog Timer 
+.................... #FUSES WDT128                   //Watch Dog Timer uses 1:128 Postscale 
+.................... #FUSES NOBROWNOUT               //No brownout reset 
+.................... #FUSES BORV45                   //Brownout reset at 4.5V 
+.................... #FUSES NOLVP                    //No low voltage prgming, B3(PIC16) or B5(PIC18) used for I/O 
+....................  
+.................... #fuses INTRC_IO 
+....................  
+.................... #use delay(clock=4000000) 
+*
+01E8:  CLRF   FEA
+01EA:  MOVLW  0F
+01EC:  MOVWF  FE9
+01EE:  MOVF   FEF,W
+01F0:  BZ    020E
+01F2:  MOVLW  01
+01F4:  MOVWF  01
+01F6:  CLRF   00
+01F8:  DECFSZ 00,F
+01FA:  BRA    01F8
+01FC:  DECFSZ 01,F
+01FE:  BRA    01F6
+0200:  MOVLW  4A
+0202:  MOVWF  00
+0204:  DECFSZ 00,F
+0206:  BRA    0204
+0208:  BRA    020A
+020A:  DECFSZ FEF,F
+020C:  BRA    01F2
+020E:  RETURN 0
+....................  
+....................  
+....................  
+.................... void active_display(int actDisplay){ 
+....................    switch(actDisplay){ 
+*
+018A:  MOVF   10,W
+018C:  XORLW  01
+018E:  BZ    019E
+0190:  XORLW  03
+0192:  BZ    01B0
+0194:  XORLW  01
+0196:  BZ    01C2
+0198:  XORLW  07
+019A:  BZ    01D4
+019C:  BRA    01E6
+....................       case 1: 
+....................        output_high(PIN_A0); 
+019E:  BCF    F92.0
+01A0:  BSF    F89.0
+....................        output_low(PIN_A1); 
+01A2:  BCF    F92.1
+01A4:  BCF    F89.1
+....................        output_low(PIN_A2); 
+01A6:  BCF    F92.2
+01A8:  BCF    F89.2
+....................        output_low(PIN_A3);   
+01AA:  BCF    F92.3
+01AC:  BCF    F89.3
+....................        break; 
+01AE:  BRA    01E6
+....................      
+....................      case 2: 
+....................        output_low(PIN_A0); 
+01B0:  BCF    F92.0
+01B2:  BCF    F89.0
+....................        output_high(PIN_A1); 
+01B4:  BCF    F92.1
+01B6:  BSF    F89.1
+....................        output_low(PIN_A2); 
+01B8:  BCF    F92.2
+01BA:  BCF    F89.2
+....................        output_low(PIN_A3); 
+01BC:  BCF    F92.3
+01BE:  BCF    F89.3
+....................        break; 
+01C0:  BRA    01E6
+....................         
+....................      case 3: 
+....................        output_low(PIN_A0); 
+01C2:  BCF    F92.0
+01C4:  BCF    F89.0
+....................        output_low(PIN_A1); 
+01C6:  BCF    F92.1
+01C8:  BCF    F89.1
+....................        output_high(PIN_A2); 
+01CA:  BCF    F92.2
+01CC:  BSF    F89.2
+....................        output_low(PIN_A3); 
+01CE:  BCF    F92.3
+01D0:  BCF    F89.3
+....................        break; 
+01D2:  BRA    01E6
+....................       
+....................      case 4: 
+....................       output_low(PIN_A0); 
+01D4:  BCF    F92.0
+01D6:  BCF    F89.0
+....................       output_low(PIN_A1); 
+01D8:  BCF    F92.1
+01DA:  BCF    F89.1
+....................       output_low(PIN_A2); 
+01DC:  BCF    F92.2
+01DE:  BCF    F89.2
+....................       output_high(PIN_A3); 
+01E0:  BCF    F92.3
+01E2:  BSF    F89.3
+....................       break; 
+01E4:  BRA    01E6
+....................        
+....................     default: 
+....................       break; 
+....................     
+....................    } 
+01E6:  RETURN 0
+....................  
+.................... } 
+....................  
+....................  
+.................... void number(int num){ 
+....................    switch(num){ 
+*
+0004:  MOVF   10,W
+0006:  XORLW  00
+0008:  BZ    0036
+000A:  XORLW  01
+000C:  BZ    0058
+000E:  XORLW  03
+0010:  BZ    007A
+0012:  XORLW  01
+0014:  BZ    009C
+0016:  XORLW  07
+0018:  BZ    00BE
+001A:  XORLW  01
+001C:  BZ    00E0
+001E:  XORLW  03
+0020:  BZ    0102
+0022:  XORLW  01
+0024:  BTFSC  FD8.2
+0026:  BRA    0124
+0028:  XORLW  0F
+002A:  BTFSC  FD8.2
+002C:  BRA    0144
+002E:  XORLW  01
+0030:  BTFSC  FD8.2
+0032:  BRA    0166
+0034:  BRA    0188
+....................       case 0: 
+....................        output_high(PIN_B0);   //a 
+0036:  BCF    F93.0
+0038:  BSF    F8A.0
+....................        output_high(PIN_B1);   //b 
+003A:  BCF    F93.1
+003C:  BSF    F8A.1
+....................        output_high(PIN_B2);   //c 
+003E:  BCF    F93.2
+0040:  BSF    F8A.2
+....................        output_high(PIN_B3);   //d 
+0042:  BCF    F93.3
+0044:  BSF    F8A.3
+....................        output_high(PIN_B4);   //e 
+0046:  BCF    F93.4
+0048:  BSF    F8A.4
+....................        output_high(PIN_B5);   //f 
+004A:  BCF    F93.5
+004C:  BSF    F8A.5
+....................        output_low(PIN_B6);    //g 
+004E:  BCF    F93.6
+0050:  BCF    F8A.6
+....................        output_low(PIN_B7);   //dp 
+0052:  BCF    F93.7
+0054:  BCF    F8A.7
+....................       break; 
+0056:  BRA    0188
+....................        
+....................       case 1: 
+....................        output_low(PIN_B0);   //a 
+0058:  BCF    F93.0
+005A:  BCF    F8A.0
+....................        output_high(PIN_B1);   //b 
+005C:  BCF    F93.1
+005E:  BSF    F8A.1
+....................        output_high(PIN_B2);   //c 
+0060:  BCF    F93.2
+0062:  BSF    F8A.2
+....................        output_low(PIN_B3);   //d 
+0064:  BCF    F93.3
+0066:  BCF    F8A.3
+....................        output_low(PIN_B4);   //e 
+0068:  BCF    F93.4
+006A:  BCF    F8A.4
+....................        output_low(PIN_B5);   //f 
+006C:  BCF    F93.5
+006E:  BCF    F8A.5
+....................        output_low(PIN_B6);    //g 
+0070:  BCF    F93.6
+0072:  BCF    F8A.6
+....................        output_low(PIN_B7);   //dp       
+0074:  BCF    F93.7
+0076:  BCF    F8A.7
+....................       break; 
+0078:  BRA    0188
+....................        
+....................       case 2: 
+....................        output_high(PIN_B0);   //a 
+007A:  BCF    F93.0
+007C:  BSF    F8A.0
+....................        output_high(PIN_B1);   //b 
+007E:  BCF    F93.1
+0080:  BSF    F8A.1
+....................        output_low(PIN_B2);   //c 
+0082:  BCF    F93.2
+0084:  BCF    F8A.2
+....................        output_high(PIN_B3);   //d 
+0086:  BCF    F93.3
+0088:  BSF    F8A.3
+....................        output_high(PIN_B4);   //e 
+008A:  BCF    F93.4
+008C:  BSF    F8A.4
+....................        output_low(PIN_B5);   //f 
+008E:  BCF    F93.5
+0090:  BCF    F8A.5
+....................        output_high(PIN_B6);    //g 
+0092:  BCF    F93.6
+0094:  BSF    F8A.6
+....................        output_low(PIN_B7);   //dp       
+0096:  BCF    F93.7
+0098:  BCF    F8A.7
+....................       break; 
+009A:  BRA    0188
+....................        
+....................       case 3: 
+....................        output_high(PIN_B0);   //a 
+009C:  BCF    F93.0
+009E:  BSF    F8A.0
+....................        output_high(PIN_B1);   //b 
+00A0:  BCF    F93.1
+00A2:  BSF    F8A.1
+....................        output_high(PIN_B2);   //c 
+00A4:  BCF    F93.2
+00A6:  BSF    F8A.2
+....................        output_high(PIN_B3);   //d 
+00A8:  BCF    F93.3
+00AA:  BSF    F8A.3
+....................        output_low(PIN_B4);   //e 
+00AC:  BCF    F93.4
+00AE:  BCF    F8A.4
+....................        output_low(PIN_B5);   //f 
+00B0:  BCF    F93.5
+00B2:  BCF    F8A.5
+....................        output_high(PIN_B6);    //g 
+00B4:  BCF    F93.6
+00B6:  BSF    F8A.6
+....................        output_low(PIN_B7);   //dp       
+00B8:  BCF    F93.7
+00BA:  BCF    F8A.7
+....................       break; 
+00BC:  BRA    0188
+....................        
+....................       case 4: 
+....................        output_low(PIN_B0);   //a 
+00BE:  BCF    F93.0
+00C0:  BCF    F8A.0
+....................        output_high(PIN_B1);   //b 
+00C2:  BCF    F93.1
+00C4:  BSF    F8A.1
+....................        output_high(PIN_B2);   //c 
+00C6:  BCF    F93.2
+00C8:  BSF    F8A.2
+....................        output_low(PIN_B3);   //d 
+00CA:  BCF    F93.3
+00CC:  BCF    F8A.3
+....................        output_low(PIN_B4);   //e 
+00CE:  BCF    F93.4
+00D0:  BCF    F8A.4
+....................        output_high(PIN_B5);   //f 
+00D2:  BCF    F93.5
+00D4:  BSF    F8A.5
+....................        output_high(PIN_B6);    //g 
+00D6:  BCF    F93.6
+00D8:  BSF    F8A.6
+....................        output_low(PIN_B7);   //dp      
+00DA:  BCF    F93.7
+00DC:  BCF    F8A.7
+....................       break; 
+00DE:  BRA    0188
+....................        
+....................       case 5: 
+....................        output_high(PIN_B0);   //a 
+00E0:  BCF    F93.0
+00E2:  BSF    F8A.0
+....................        output_low(PIN_B1);   //b 
+00E4:  BCF    F93.1
+00E6:  BCF    F8A.1
+....................        output_high(PIN_B2);   //c 
+00E8:  BCF    F93.2
+00EA:  BSF    F8A.2
+....................        output_high(PIN_B3);   //d 
+00EC:  BCF    F93.3
+00EE:  BSF    F8A.3
+....................        output_low(PIN_B4);   //e 
+00F0:  BCF    F93.4
+00F2:  BCF    F8A.4
+....................        output_high(PIN_B5);   //f 
+00F4:  BCF    F93.5
+00F6:  BSF    F8A.5
+....................        output_high(PIN_B6);    //g 
+00F8:  BCF    F93.6
+00FA:  BSF    F8A.6
+....................        output_low(PIN_B7);   //dp      
+00FC:  BCF    F93.7
+00FE:  BCF    F8A.7
+....................       break; 
+0100:  BRA    0188
+....................        
+....................       case 6: 
+....................        output_high(PIN_B0);   //a 
+0102:  BCF    F93.0
+0104:  BSF    F8A.0
+....................        output_low(PIN_B1);   //b 
+0106:  BCF    F93.1
+0108:  BCF    F8A.1
+....................        output_high(PIN_B2);   //c 
+010A:  BCF    F93.2
+010C:  BSF    F8A.2
+....................        output_high(PIN_B3);   //d 
+010E:  BCF    F93.3
+0110:  BSF    F8A.3
+....................        output_high(PIN_B4);   //e 
+0112:  BCF    F93.4
+0114:  BSF    F8A.4
+....................        output_high(PIN_B5);   //f 
+0116:  BCF    F93.5
+0118:  BSF    F8A.5
+....................        output_high(PIN_B6);    //g 
+011A:  BCF    F93.6
+011C:  BSF    F8A.6
+....................        output_low(PIN_B7);   //dp      
+011E:  BCF    F93.7
+0120:  BCF    F8A.7
+....................       break; 
+0122:  BRA    0188
+....................        
+....................       case 7: 
+....................        output_high(PIN_B0);   //a 
+0124:  BCF    F93.0
+0126:  BSF    F8A.0
+....................        output_high(PIN_B1);   //b 
+0128:  BCF    F93.1
+012A:  BSF    F8A.1
+....................        output_high(PIN_B2);   //c 
+012C:  BCF    F93.2
+012E:  BSF    F8A.2
+....................        output_low(PIN_B3);   //d 
+0130:  BCF    F93.3
+0132:  BCF    F8A.3
+....................        output_low(PIN_B4);   //e 
+0134:  BCF    F93.4
+0136:  BCF    F8A.4
+....................        output_low(PIN_B5);   //f 
+0138:  BCF    F93.5
+013A:  BCF    F8A.5
+....................        output_low(PIN_B6);    //g 
+013C:  BCF    F93.6
+013E:  BCF    F8A.6
+....................        output_low(PIN_B7);   //dp       
+0140:  BCF    F93.7
+0142:  BCF    F8A.7
+....................         
+....................       case 8: 
+....................        output_high(PIN_B0);   //a 
+0144:  BCF    F93.0
+0146:  BSF    F8A.0
+....................        output_high(PIN_B1);   //b 
+0148:  BCF    F93.1
+014A:  BSF    F8A.1
+....................        output_high(PIN_B2);   //c 
+014C:  BCF    F93.2
+014E:  BSF    F8A.2
+....................        output_high(PIN_B3);   //d 
+0150:  BCF    F93.3
+0152:  BSF    F8A.3
+....................        output_high(PIN_B4);   //e 
+0154:  BCF    F93.4
+0156:  BSF    F8A.4
+....................        output_high(PIN_B5);   //f 
+0158:  BCF    F93.5
+015A:  BSF    F8A.5
+....................        output_high(PIN_B6);    //g 
+015C:  BCF    F93.6
+015E:  BSF    F8A.6
+....................        output_low(PIN_B7);   //dp       
+0160:  BCF    F93.7
+0162:  BCF    F8A.7
+....................       break; 
+0164:  BRA    0188
+....................        
+....................       case 9: 
+....................        output_high(PIN_B0);   //a 
+0166:  BCF    F93.0
+0168:  BSF    F8A.0
+....................        output_high(PIN_B1);   //b 
+016A:  BCF    F93.1
+016C:  BSF    F8A.1
+....................        output_high(PIN_B2);   //c 
+016E:  BCF    F93.2
+0170:  BSF    F8A.2
+....................        output_high(PIN_B3);   //d 
+0172:  BCF    F93.3
+0174:  BSF    F8A.3
+....................        output_low(PIN_B4);   //e 
+0176:  BCF    F93.4
+0178:  BCF    F8A.4
+....................        output_high(PIN_B5);   //f 
+017A:  BCF    F93.5
+017C:  BSF    F8A.5
+....................        output_high(PIN_B6);    //g 
+017E:  BCF    F93.6
+0180:  BSF    F8A.6
+....................        output_low(PIN_B7);   //dp 
+0182:  BCF    F93.7
+0184:  BCF    F8A.7
+....................       break; 
+0186:  BRA    0188
+....................            
+....................       default: 
+....................          break; 
+....................        
+....................     
+....................    } 
+0188:  RETURN 0
+....................  
+.................... } 
+....................  
+....................  
+.................... void all_off() 
+.................... { 
+....................     output_low(PIN_B0);   //a 
+*
+0210:  BCF    F93.0
+0212:  BCF    F8A.0
+....................     output_low(PIN_B1);   //b 
+0214:  BCF    F93.1
+0216:  BCF    F8A.1
+....................     output_low(PIN_B2);   //c 
+0218:  BCF    F93.2
+021A:  BCF    F8A.2
+....................     output_low(PIN_B3);   //d 
+021C:  BCF    F93.3
+021E:  BCF    F8A.3
+....................     output_low(PIN_B4);   //e 
+0220:  BCF    F93.4
+0222:  BCF    F8A.4
+....................     output_low(PIN_B5);   //f 
+0224:  BCF    F93.5
+0226:  BCF    F8A.5
+....................     output_low(PIN_B6);    //g 
+0228:  BCF    F93.6
+022A:  BCF    F8A.6
+....................     output_low(PIN_B7);   //dp 
+022C:  BCF    F93.7
+022E:  BCF    F8A.7
+0230:  GOTO   02E4 (RETURN)
+.................... } 
+....................  
+....................  
+....................  
+.................... void standbyDisplay(int *num_in_display, int modifiedDigit){ 
+0234:  CLRF   0D
+0236:  CLRF   0E
+....................    int flashingCounter=0;     //counter used to turn on or off the selected number 
+....................    int actDisp=0; 
+....................    static int digit=0; 
+....................    do{ 
+....................        
+....................       flashingCounter++; 
+0238:  INCF   0D,F
+....................        
+....................      ////Reading buttons////// 
+....................        
+....................        if(input(PIN_A7)==0)  //changes blinking number 
+023A:  BSF    F92.7
+023C:  BTFSC  F80.7
+023E:  BRA    024C
+....................        { 
+....................          modifiedDigit++; 
+0240:  INCF   0C,F
+....................          if(modifiedDigit>4) 
+0242:  MOVF   0C,W
+0244:  SUBLW  04
+0246:  BC    024C
+....................             modifiedDigit=1;          
+0248:  MOVLW  01
+024A:  MOVWF  0C
+....................        }   
+....................     
+....................     
+....................                
+....................        if(input(PIN_A6)==0){   //detects if increment button is pressed 
+024C:  BSF    F92.6
+024E:  BTFSC  F80.6
+0250:  BRA    0298
+....................         num_in_display[digit]=num_in_display[digit]+1; 
+0252:  MOVF   04,W
+0254:  ADDWF  0A,W
+0256:  MOVWF  01
+0258:  MOVLW  00
+025A:  ADDWFC 0B,W
+025C:  MOVWF  03
+025E:  MOVF   04,W
+0260:  ADDWF  0A,W
+0262:  MOVWF  FE9
+0264:  MOVLW  00
+0266:  ADDWFC 0B,W
+0268:  MOVWF  FEA
+026A:  MOVLW  01
+026C:  ADDWF  FEF,W
+026E:  MOVFF  03,FEA
+0272:  MOVFF  01,FE9
+0276:  MOVWF  FEF
+....................          
+....................          if(num_in_display[digit]>9) 
+0278:  MOVF   04,W
+027A:  ADDWF  0A,W
+027C:  MOVWF  FE9
+027E:  MOVLW  00
+0280:  ADDWFC 0B,W
+0282:  MOVWF  FEA
+0284:  MOVF   FEF,W
+0286:  SUBLW  09
+0288:  BC    0298
+....................             num_in_display[digit]=0; 
+028A:  MOVF   04,W
+028C:  ADDWF  0A,W
+028E:  MOVWF  FE9
+0290:  MOVLW  00
+0292:  ADDWFC 0B,W
+0294:  MOVWF  FEA
+0296:  CLRF   FEF
+....................        }  
+....................     
+....................      /////////// 
+....................     
+....................       for(actDisp=0; actDisp<4; actDisp++){ 
+0298:  CLRF   0E
+029A:  MOVF   0E,W
+029C:  SUBLW  03
+029E:  BNC   0316
+....................     
+....................          if(modifiedDigit != (actDisp+1))  //If the number is not being edited, show number as normal 
+02A0:  MOVLW  01
+02A2:  ADDWF  0E,W
+02A4:  SUBWF  0C,W
+02A6:  BZ    02D4
+....................          { 
+....................             number(*(num_in_display+actDisp));       //number stored in the numbers' array - number function is the  LO and HI configuration for each pin 
+02A8:  MOVF   0E,W
+02AA:  ADDWF  0A,W
+02AC:  MOVWF  01
+02AE:  MOVLW  00
+02B0:  ADDWFC 0B,W
+02B2:  MOVWF  03
+02B4:  MOVFF  01,FE9
+02B8:  MOVWF  FEA
+02BA:  MOVFF  FEF,0F
+02BE:  MOVFF  0F,10
+02C2:  RCALL  0004
+....................             active_display(actDisp+1);    //display to be turned on 
+02C4:  MOVLW  01
+02C6:  ADDWF  0E,W
+02C8:  MOVWF  0F
+02CA:  MOVWF  10
+02CC:  RCALL  018A
+....................             DELAY_MS(2); 
+02CE:  MOVLW  02
+02D0:  MOVWF  0F
+02D2:  RCALL  01E8
+....................          } 
+....................           
+....................                 
+....................          if(flashingCounter<50 && (modifiedDigit == (actDisp+1))) 
+02D4:  MOVF   0D,W
+02D6:  SUBLW  31
+02D8:  BNC   02E6
+02DA:  MOVLW  01
+02DC:  ADDWF  0E,W
+02DE:  SUBWF  0C,W
+02E0:  BNZ   02E6
+....................          { 
+....................             all_off(); 
+02E2:  BRA    0210
+....................          } 
+02E4:  BRA    0312
+....................          else 
+....................          { 
+....................             number(*(num_in_display+actDisp));       //number stored in the numbers' array 
+02E6:  MOVF   0E,W
+02E8:  ADDWF  0A,W
+02EA:  MOVWF  01
+02EC:  MOVLW  00
+02EE:  ADDWFC 0B,W
+02F0:  MOVWF  03
+02F2:  MOVFF  01,FE9
+02F6:  MOVWF  FEA
+02F8:  MOVFF  FEF,0F
+02FC:  MOVFF  0F,10
+0300:  RCALL  0004
+....................             active_display(actDisp+1);    //display to be turned on 
+0302:  MOVLW  01
+0304:  ADDWF  0E,W
+0306:  MOVWF  0F
+0308:  MOVWF  10
+030A:  RCALL  018A
+....................             DELAY_MS(2); 
+030C:  MOVLW  02
+030E:  MOVWF  0F
+0310:  RCALL  01E8
+....................          } 
+0312:  INCF   0E,F
+0314:  BRA    029A
+....................        
+....................          //check if botton 1 is pressed 
+....................       //   if 
+....................           
+....................       } 
+....................    }while(flashingCounter<100); 
+0316:  MOVF   0D,W
+0318:  SUBLW  63
+031A:  BC    0238
+031C:  GOTO   0364 (RETURN)
+....................  
+.................... } 
+....................  
+.................... void runningDisplay(int *num){ 
+....................    int actDisp=0; 
+....................    for(actDisp=0; actDisp<4; actDisp++){ 
+....................       number(*(num+actDisp));       //number stored in the numbers' array 
+....................       active_display(actDisp+1);    //display to be turned on 
+....................     
+....................       DELAY_MS(10); 
+....................    } 
+....................  
+.................... } 
+....................  
+....................  
+.................... void main() 
+0320:  CLRF   FF8
+0322:  BCF    FD0.7
+0324:  MOVLW  62
+0326:  MOVWF  FD3
+0328:  CLRF   F9B
+032A:  MOVF   FD3,W
+032C:  CLRF   04
+032E:  BCF    FC2.6
+0330:  BCF    FC2.7
+0332:  MOVF   FC1,W
+0334:  ANDLW  80
+0336:  IORLW  7F
+0338:  MOVWF  FC1
+.................... { 
+....................    int num_in_display[4]={0,0,0,0};  //this array stores the current value of each digit in the display 
+033A:  CLRF   05
+033C:  CLRF   06
+033E:  CLRF   07
+0340:  CLRF   08
+....................    num_in_display[0]=0; 
+0342:  CLRF   05
+....................    num_in_display[1]=1; 
+0344:  MOVLW  01
+0346:  MOVWF  06
+....................    num_in_display[2]=2; 
+0348:  MOVLW  02
+034A:  MOVWF  07
+....................    num_in_display[3]=3; 
+034C:  MOVLW  03
+034E:  MOVWF  08
+....................       
+....................    set_tris_a(0b11000000);       //Port A salidas y entradas RA6 y RA7 
+0350:  MOVLW  C0
+0352:  MOVWF  F92
+.................... //   set_tris_b(0b00000000);       //Port B salidas nibble bajo    
+....................       
+....................    int editedDisplay=1;   //1 to 4, blinking number in the display 
+0354:  MOVLW  01
+0356:  MOVWF  09
+....................     
+....................    while(TRUE) 
+....................     { 
+....................      
+....................      standbyDisplay(num_in_display, editedDisplay); 
+0358:  CLRF   0B
+035A:  MOVLW  05
+035C:  MOVWF  0A
+035E:  MOVFF  09,0C
+0362:  BRA    0234
+0364:  BRA    0358
+....................       
+....................      /* 
+....................      if(input(PIN_A7)==0)  //changes blinking number 
+....................        { 
+....................          editedDisplay++; 
+....................          if(editedDisplay>4) 
+....................             editedDisplay=1;          
+....................        }  
+....................         
+....................            //detects if increment button is pressed 
+....................       if(input(PIN_A6)==0){ 
+....................         num_in_display[editedDisplay-1]=num_in_display[editedDisplay-1]+1; 
+....................          
+....................         if(num_in_display[editedDisplay-1]>9) 
+....................             num_in_display[editedDisplay-1]=0; 
+....................       }   
+....................      */ 
+....................     } 
+....................     
+....................    
+....................  
+....................  //    standbyDisplay(num_in_display, 2); 
+....................     //  runningDisplay(num_in_display); 
+....................  
+.................... } 
+0366:  SLEEP 
+
+Configuration Fuses:
+   Word  1: C800   INTRC_IO FCMEN IESO
+   Word  2: 0E00   PUT NOBROWNOUT BORV45 NOWDT WDT128
+   Word  3: 8000   MCLR
+   Word  4: 0081   STVREN NOLVP NODEBUG
+   Word  5: C003   NOPROTECT NOCPB NOCPD
+   Word  6: E003   NOWRT NOWRTC NOWRTB NOWRTD
+   Word  7: 4003   NOEBTR NOEBTRB

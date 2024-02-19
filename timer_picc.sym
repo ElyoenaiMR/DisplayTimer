@@ -1,0 +1,73 @@
+000     @SCRATCH
+001     @SCRATCH
+001     _RETURN_
+002     @SCRATCH
+003     @SCRATCH
+004     standbyDisplay.digit
+005-008 MAIN.num_in_display
+009     MAIN.editedDisplay
+00A-00B standbyDisplay.num_in_display
+00C     standbyDisplay.modifiedDigit
+00D     standbyDisplay.flashingCounter
+00E     standbyDisplay.actDisp
+00F     @delay_ms1.P1
+00F     standbyDisplay.@SCRATCH1
+010     active_display.actDisplay
+010     number.num
+010     standbyDisplay.@SCRATCH2
+011     standbyDisplay.@SCRATCH3
+FBE     CCP_1
+FBE     CCP_1_LOW
+FBF     CCP_1_HIGH
+FE1-FE2 @READ_PACKED_MEMORY.P1
+FE1-FE2 @WRITE_PACKED_MEMORY.P2
+FE9-FEA @READ_PROGRAM_MEMORY.P1
+FE9-FEA @WRITE_PACKED_MEMORY.P2
+FE9-FEA @WRITE_PROGRAM_MEMORY.P3
+FE9-FEA @READ_PACKED_MEMORY.P4
+FF6-FF8 @WRITE_PROGRAM_MEMORY.P1
+FF6-FF8 @READ_PROGRAM_MEMORY.P2
+
+ROM Allocation:
+000004  number
+00018A  active_display
+0001E8  @delay_ms1
+000210  all_off
+000234  standbyDisplay
+000320  @cinit1
+000320  MAIN
+00033A  @cinit2
+
+Project Directory:
+    C:\Users\elyom\Documents\ElyoFiles\Electrónica\timer\
+
+Project Files:
+    timer_picc.c                                            [19-feb.-24 09:37  CRC=370D42B0]
+    timer_picc.h                                            [12-feb.-24 18:45  CRC=C550249D]
+    ..\..\..\..\..\..\Program Files (x86)\PICC\Devices\18F1320.h [18-abr.-14 16:56  CRC=E9541B5A]
+
+Source signature=CF059E01
+
+Units:
+    timer_picc (main)
+
+Compiler Settings:
+    Processor:      PIC18F1320
+    Pointer Size:   16
+    ADC Range:      0-65535
+    Opt Level:      9
+    Short,Int,Long: UNSIGNED: 1,8,16
+    Float,Double:   32,32
+    Compile Mode:       CCS5
+
+Output Files:
+    XREF file:   timer_picc.xsym
+    Errors:      timer_picc.err
+    Ext Symbols: timer_picc.esym
+    INHX32:      timer_picc.hex
+    Symbols:     timer_picc.sym
+    List:        timer_picc.lst
+    Debug/COFF:  timer_picc.cof
+    Project:     timer_picc.ccspjt
+    Call Tree:   timer_picc.tre
+    Statistics:  timer_picc.STA

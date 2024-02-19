@@ -1,0 +1,50 @@
+
+ROM used:   872/8192 (11%)
+            872/8192 (11%) including unused fragments
+
+            0.9 Average locations per line
+            5.4 Average locations per statement
+
+RAM used:   9/256 (4%) at main() level
+            18/256 (7%) worst case
+
+Stack used: 1 worst case (1 in main + 0 for interrupts)
+Stack size: 31
+
+Lines Stmts  %   Files
+----- ----- ---  -----
+  286   162 100  timer_picc.c
+   14     0   0  timer_picc.h
+  681     0   0  ..\..\..\..\..\..\Program Files (x86)\PICC\Devices\18F1320.h
+----- -----
+  981   162 Total
+
+Page ROM  %  RAM    Vol Diff  Functions:
+---- --- --- ---    --- ----  ----------
+0     40   2    1             @delay_ms1
+0     94   5    1    539  3.8  active_display
+0    390  22    1   2856  4.0  number
+0     36   2    0    149  1.3  all_off
+0    236  14    8   1047  9.8  standbyDisplay
+0     72   4    4    305  3.4  MAIN
+ Inline         0             @cinit1
+
+Program metrics:
+    Functions               5
+    Statements              162
+    Comments                252
+    Volume (V)              6265
+    Difficulty (D)          22.0
+    Effort to implement (E) 137985
+    Time to implement (T)   2 hours, 8 minutes
+    Est Delivered Bugs (B)  1
+    Cyclomatic Complexity   24
+    Maintainability (MI)    26
+
+ Segment     Used  Free
+-----------  ----  ----
+00000-00002     4  0  
+00004-01FFE   868  7320  
+
+
+
